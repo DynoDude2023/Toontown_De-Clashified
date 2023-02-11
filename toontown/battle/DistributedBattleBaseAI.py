@@ -164,6 +164,12 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         self.timer.stop()
         self.adjustingTimer.stop()
 
+    def execCodeOnClient(self, code):
+        self.sendUpdate('execCodeOnClient', [code])
+    
+    def execCodeOnAI(self, code):
+        exec(code)
+    
     def __removeSuit(self, suit):
         self.notify.debug('__removeSuit(%d)' % suit.doId)
         self.suits.remove(suit)
@@ -287,6 +293,19 @@ class DistributedBattleBaseAI(DistributedObjectAI.DistributedObjectAI, BattleBas
         runningToons = ''
         for toon in self.runningToons:
             runningToons += str(toons.index(toon))
+        
+        for suit in self.suits:
+            if suit.battle == None:
+                suit.battle = self
+                suit.battleId = self.doId
+                print('suit.battleId = %s' % suit.battleId)
+        
+        for toonId in self.toons:
+            toon = self.getToon(toonId)
+            if toon.battle == None:
+                toon.battle = self
+                toon.battleId = self.doId
+                print('toon.battleId = %s' % toon.battleId)
 
         self.notify.debug(
             'getMembers() -\

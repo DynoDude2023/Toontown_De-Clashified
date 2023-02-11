@@ -50,8 +50,12 @@ class DistributedSuitBase(DistributedAvatar.DistributedAvatar, Suit.Suit, SuitBa
         self.maxSkeleRevives = 0
         self.sillySurgeText = False
         self.interactivePropTrackBonus = -1
+        self.battle = None
         return
 
+    def setBattle(self, battle):
+        self.battle = battle
+    
     def setVirtual(self, virtual):
         pass
 

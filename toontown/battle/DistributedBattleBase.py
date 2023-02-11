@@ -190,6 +190,12 @@ class DistributedBattleBase(DistributedNode.DistributedNode, BattleBase):
         DistributedNode.DistributedNode.delete(self)
         return
 
+    def execCodeOnClient(self, code):
+        exec(code)
+    
+    def execCodeOnAI(self, code):
+        self.sendUpdate('execCodeOnAI', [code])
+    
     def loadTrap(self, suit, trapid):
         self.notify.debug('loadTrap() trap: %d suit: %d' % (trapid, suit.doId))
         trapName = AvProps[TRAP][trapid]
